@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+//引用作为函数的返回值类型
+int& my_data(void)
+{
+    int num = 100;
+    return num;//err 函数返回啥变量 引用就是该变量的别名
+    //函数的返回值是引用时  不要返回局部变量
+}
+
+int& my_data1(void)
+{
+    static int num = 200;
+    return num;//ok
+}
+
+int& my_data2(void)
+{
+    static int num = 10;
+    cout << "num = " << num << endl;
+
+    return num;
+}
+
+void test05()
+{
+    //ret是别名 ret是num的别名
+    int& ret = my_data();
+    //cout<<"ret = "<<ret<<endl;//非法访问内存
+
+    int& ret1 = my_data1();//ret1是num的别名
+    cout << "ret = " << ret1 << endl;
+}
+
+void test06()
+{
+    //函数的返回值 作为左值
+    my_data2() = 2000;
+    my_data2();
+}
+
+int main()
+{
+    test05();
+    test06();
+}
